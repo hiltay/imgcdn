@@ -1,6 +1,6 @@
 {
   "name": "imgscdn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "img",
   "main": "index.js",
   "scripts": {
