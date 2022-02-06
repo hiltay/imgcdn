@@ -1,6 +1,6 @@
 /*
-Last Modified time : 20220129 18:34 by https://immmmm.com
-基于 FriendCircle API v4.1.2 
+Last Modified time : 20220202 19:14 by https://immmmm.com
+基于 FriendCircle 公共库 API
 */
 :root{
   --lmm-hover: #fe5186;
@@ -27,20 +27,23 @@ Last Modified time : 20220129 18:34 by https://immmmm.com
 #fMessageBoard .fMessageItem .fItem {height:60px;background:transparent;display:flex;flex-direction:column;width:33%;}
 #fMessageBoard .fMessageItem .fItem .fLabel {font-size:16px;padding:0 3%;align-self:center;text-align:center;width:100%;height:30px;}
 #fMessageBoard .fMessageItem .fItem .fMessage {align-self:center;text-align:center;padding:0 3%;width:50%;font-size:20px;}
+#fMessageBoard .fActiveFriend.fItem,#fMessageBoard .fErrorSite.fItem,#fMessageBoard .fArticleNum.fItem{cursor:pointer;}
 #fcircleMoreBtn {width:40%;max-width:810px;height:30px;margin:auto;border-radius:12px;font-weight:bolder;text-align:center;display:flex;flex-direction:column;justify-content:space-around;cursor:pointer;transition:0.3s;}
 #fcircleMoreBtn:hover{width:60%;}
 #fcircleContainer {width:100%;max-width:900px;height:auto;margin:auto;}
 #fcircleContainer a {text-decoration:none;}
-#fcircleContainer .fArticleItem {margin:20px 1%;border-radius:5px;font-weight:bolder;overflow:hidden;}
+#fcircleContainer .fArticleItem {margin:20px 1%;border-radius:5px;font-weight:bolder;overflow:hidden;transition: all ease-out .3s;}
+#fcircleContainer .fArticleItem:hover{transition:transform .3s;webkit-transform:scale(1.3);transform:scale(1.03)}
+#fcircleContainer .fArticleAvatar{line-height:35px;}
 #fcircleContainer .fArticleItem .fArticleAvatar .fAvatar {align-self:center;text-align:center;}
-#fcircleContainer .fArticleItem .fArticleAvatar img.fAvatar {display:inline-block;width:22px;height:22px;border-radius:50%;margin-bottom: -4px;}
+#fcircleContainer .fArticleItem .fArticleAvatar img.fAvatar {display:inline-block;width:22px;height:22px;border-radius:50%;margin-bottom: -4px;background: #fff;}
 #fcircleContainer .fArticleItem .fArticleAvatar .fAvatar .img-alt.is-center {display:none;}
-#fcircleContainer .fArticleItem .fArticleAvatar .fArticleAuthor {line-height: 35px;font-size:14px;margin-left:5px;align-self:center;text-align:center;height:40px;white-space:nowrap;overflow:hidden;}
-.fArticleMessage .fArticleFloor{position: absolute;top: 10px;right:0.5rem;font-style: italic;font-size: 3rem;line-height: 1.5rem;z-index:1;font-weight: 400;}
+#fcircleContainer .fArticleItem .fArticleAvatar .fArticleAuthor {line-height: 35px;font-size:14px;font-weight: 400;margin-left:5px;align-self:center;text-align:center;height:40px;white-space:nowrap;overflow:hidden;}
+.fArticleMessage .fArticleFloor{position: absolute;top: 0;right:0.5rem;font-style: italic;font-size: 3rem;line-height: 1.5rem;z-index:1;font-weight: 400;}
 #fcircleMoreBtn i.fas::before {content:"∞";}
 #fcircleMoreBtn i.fas:hover{color:var(--lmm-hover);}
 #fcircleContainer .fArticleItem .fArticleMessage {position: relative;padding:0.5rem 1rem;border-radius:5px;overflow: hidden;}
-#fcircleContainer .fArticleItem .fArticleMessage a.fArticleTitle {position: relative;z-index:2;width:100%;display: block;letter-spacing:1.5px;font-size:18px;align-self:start;text-align:left;line-height:40px;padding:0;margin-bottom:10px;transition:0.3s;}
+#fcircleContainer .fArticleItem .fArticleMessage a.fArticleTitle {font-weight: 500;position: relative;z-index:2;width:100%;display: block;letter-spacing:1.5px;font-size:18px;align-self:start;text-align:left;line-height:40px;padding:0;margin-bottom:10px;transition:0.3s;}
 #fcircleContainer .fArticleItem .fArticleMessage a.fArticleTitle:hover{letter-spacing:2px;color:var(--lmm-hover) !important;}
 #fcircleContainer .fArticleItem .fArticleMessage .fArticleTime {font-size:14px;text-align:right;float:right;font-weight:400;}
 #fcircleContainer .fArticleItem .fArticleMessage .fArticleTime .fArticleUpdated,#fcircleContainer .fArticleItem .fArticleMessage .fArticleTime .fArticleCreated {display:inline-block;text-align:left;white-space:nowrap;}
@@ -57,11 +60,41 @@ Last Modified time : 20220129 18:34 by https://immmmm.com
 #switchRankBtn .rankByNow{color:var(--lmm-hover);font-weight:800;}
 #fcircleFooter{margin:0 1% 2rem 0;text-align:right;font-size:13px;}
 
+
+
+#fcircleShow1,#fcircleShow{position:fixed;width:100%;height:100%;}
+#fcircleShow1{top: 0;left:100%;background-color: rgba(255, 255, 255, 0.42);-webkit-backdrop-filter: blur(10px);backdrop-filter: blur(10px);overflow-y:auto;pointer-events: all;transition: all 0.1s ease;z-index: 998;}
+#fcircleShow{bottom: 100%;left:0;transition: all 0.3s ease;z-index: 999;}
+
+#fcircleShow1.fshow{left:0;}
+#fcircleShow.fshow{bottom:0;}
+
+.fcircleShow{text-align: center;border-radius: 20px;position: absolute;width: 320px;min-height:170px;left: 50%;top:50%;transform: translate(-50%,-50%);box-shadow: 0 12px 40px rgba(0, 0, 0, 0.093);background: var(--lmm-background);}
+.fcircleShowHead:hover img.fAvatar{transform:rotate(360deg);transition:0.8s;}
+.fcircleShow .fcircleShowHead a{color: var(--lmm-hover);display:block;text-align:center;font-weight:bold;margin-top:-5px;padding:5px 8px 5px;text-decoration: none;}
+.fcircleShow img.fAvatar{background:#fff;width: 80px;height: 80px;border-radius: 50%;margin: -45px auto 0;box-shadow: 0 12px 40px rgb(0 0 0 / 9%);transform:rotate(-360deg);transition:0.8s;}
+.fcircleShow p{margin:0.3rem 5px;width:100%;position: relative;}
+.fcircleShow p a{text-decoration: none !important;display:block;text-align:left;position: relative;z-index: 2;}
+.fcircleShow p span{position: absolute;bottom:2px;right:15px;z-index: 1;font-style: italic;font-size:12px;}
+#fcircleContainer .fcircleShow p a:hover{letter-spacing:1px;transition:0.3s;}
+.fcircleShow .fcircleShowContent{padding:10px 15px 30px;border-bottom-left-radius:20px;border-bottom-right-radius:20px;background: #fff;}
+#fcircleShow .fclose{position:sticky;display: block;width:100%;height:100%;}
+
+#randomFriend{margin: 20px 1%;border-radius: 5px;font-weight: bolder;overflow: hidden;}
+.randomFriend{position: relative;padding: 0.5rem 1rem;border-radius: 5px;overflow: hidden;background:var(--lmm-dack-background);}
+
+.fcircleShow p a:hover{color:var(--lmm-hover) !important;}
+.fcircleShow p span{color:var(--lmm-floorcolor)}
+.dark-theme #fcircleShow1{background-color: rgba(59, 61, 66, 0.42);}
+.dark-theme .fcircleShow{background: #292a2d;}
+.dark-theme .fcircleShow p a{color: var(--lmm-fontcolor);}
+.dark-theme .fcircleShow .fcircleShowContent{background: #eaeaea;}
+.dark-theme #fcircleShow .fclose svg {fill: var(--lmm-dark-fontcolor);}
 .dark-theme #fMessageBoard,.dark-theme #fcircleMoreBtn {background:var(--lmm-dack-background);color:var(--lmm-dark-fontcolor);}
 .dark-theme #switchRankBtn,.dark-theme .fArticleMessage .fArticleUpdated,.dark-theme .fArticleMessage .fArticleCreated,.dark-theme .fArticleMessage .fArticleFloor{color:var(--lmm-dark-floorcolor);}
 .dark-theme .fArticleAvatar .fArticleAuthor,.dark-theme .fArticleMessage a.fArticleTitle {color:var(--lmm-dark-fontcolor);}
 .dark-theme .fArticleMessage {background:var(--lmm-dack-background);}
-.dark-theme .fArticleMessage:hover .fArticleFloor,.dark-theme .fArticleMessage:hover .fArticleCreated,.dark-theme .fArticleMessage:hover .fArticleUpdated{color: var(--lmm-dark-fontcolor);}
+.dark-theme .fArticleMessage:hover .fArticleFloor,.dark-theme .fArticleMessage:hover .fArticleCreated,.dark-theme .fArticleMessage:hover .fArticleUpdated,.dark-theme .fcircleShow p span{color: var(--lmm-dark-fontcolor);}
 
 @media screen and (max-width:400px) {
   #fMessageBoard {font-size:14px;}
